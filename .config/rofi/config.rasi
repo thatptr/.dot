@@ -1,0 +1,6 @@
+configuration {
+ font: "JetBrains Mono 10";
+ }
+//@theme "/usr/share/rofi/themes/android_notification.rasi"
+//@theme "/usr/share/rofi/themes/gruvbox-common.rasi"
+@theme "/usr/share/rofi/themes/Arc-Dark.rasi"

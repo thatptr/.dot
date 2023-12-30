@@ -1,0 +1,27 @@
+[font]
+size = 6
+
+[font.bold]
+family = "Martian Mono"
+style = "Bold"
+
+[font.italic]
+family = "Martian Mono"
+style = "Italic"
+
+[font.normal]
+family = "Martian Mono"
+style = "Regular"
+
+[window]
+dynamic_padding = true
+opacity = 0.8
+blur = true
+
+[window.dimensions]
+columns = 10
+lines = 10
+
+[window.padding]
+x = 0
+y = 0
