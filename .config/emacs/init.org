@@ -1,0 +1,180 @@
+#+Title: Config
+#+Author: nymk
+#+property: header-args :tangle init.el
+
+* Org
+** Tempo
+#+begin_src emacs-lisp
+  (require 'org-tempo)
+#+end_src
+
+** Auto indent
+#+begin_src emacs-lisp
+  (add-hook 'org-mode-hook #'org-indent-mode)
+#+end_src
+
+* GUI Look and feel
+#+begin_src emacs-lisp
+  (tool-bar-mode -1)
+  (scroll-bar-mode -1)
+  (menu-bar-mode -1)
+#+end_src
+
+* Font
+#+begin_src emacs-lisp
+  (set-frame-font "JetBrains Mono 9")
+  (set-face-attribute 'default t :font "JetBrains Mono 9" )
+#+end_src
+
+* GCMH
+#+begin_src emacs-lisp
+  (use-package gcmh :demand t :ensure t :init (gcmh-mode))
+#+end_src
+
+* Base packages
+** Evil Mode
+#+begin_src emacs-lisp
+  (use-package evil :ensure t :defer t :init (evil-mode))
+#+end_src
+
+** Theme
+#+begin_src emacs-lisp
+  (use-package adwaita-dark-theme :defer t
+    :init (load-theme 'adwaita-dark t))
+
+  (eval-after-load 'eldoc-frame #'adwaita-dark-theme-eldoc-frame-configuration-enable)
+  (eval-after-load 'flycheck #'adwaita-dark-theme-flycheck-fringe-bmp-enable)
+  (adwaita-dark-theme-arrow-fringe-bmp-enable)
+#+end_src
+
+** Company
+#+begin_src emacs-lisp
+  (use-package company :ensure t :defer t :init (add-hook 'after-init-hook #'global-company-mode))
+  (setq company-box-scrollbar nil)
+#+end_src
+
+*** Company box
+#+begin_src emacs-lisp
+  (use-package company-box :ensure t :defer t :init (add-hook 'company-mode-hook #'company-box-mode))
+#+end_src
+
+** Autopairs
+#+begin_src emacs-lisp
+  (use-package smartparens :ensure t :defer t
+    :init (smartparens-global-mode)
+    (defun indent-between-pair (&rest _ignored)
+      (newline)
+      (indent-according-to-mode)
+      (forward-line -1)
+      (indent-according-to-mode))
+
+    (sp-local-pair 'prog-mode "{" nil :post-handlers '((indent-between-pair "RET")))
+    (sp-local-pair 'prog-mode "[" nil :post-handlers '((indent-between-pair "RET")))
+    (sp-local-pair 'prog-mode "(" nil :post-handlers '((indent-between-pair "RET"))))
+#+end_src
+
+* Ivy
+#+begin_src emacs-lisp
+  (use-package ivy :ensure t :defer t :init (ivy-mode))
+#+end_src
+
+* Dashboard
+#+begin_src emacs-lisp
+  ;; use-package with package.el:
+  (use-package dashboard
+    :ensure t
+    :init
+    (dashboard-setup-startup-hook))
+
+  ;; Dashboard config
+  ;; Set the title
+  (setq dashboard-banner-logo-title "Welcome to Emacs!")
+  ;; Set the banner
+  (setq dashboard-startup-banner "~/Pictures/united.png")
+  ;; Value can be
+  ;; - nil to display no banner
+  ;; - 'official which displays the official emacs logo
+  ;; - 'logo which displays an alternative emacs logo
+  ;; - 1, 2 or 3 which displays one of the text banners
+  ;; - "path/to/your/image.gif", "path/to/your/image.png", "path/to/your/text.txt" or "path/to/your/image.xbm" which displays whatever gif/image/text/xbm you would prefer
+  ;; - a cons of '("path/to/your/image.png" . "path/to/your/text.txt")
+
+  ;; Content is not centered by default. To center, set
+  (setq dashboard-center-content t)
+
+  ;; To disable shortcut "jump" indicators for each section, set
+  (setq dashboard-show-shortcuts nil)
+#+end_src
+
+* Programming
+** C++
+#+begin_src emacs-lisp
+
+  ;; Treesitter
+  (use-package tree-sitter-langs :ensure t :defer t)
+  (add-hook 'c++-mode-hook #'tree-sitter-hl-mode)
+
+  ;; LSP
+  (use-package lsp-mode :ensure t :defer t :ensure lsp-ui)
+  (add-hook 'lsp-mode-hook (lambda () (lsp-ui-mode +1) ))
+  (add-hook 'c++-mode-hook #'lsp)
+
+  ;; Flycheck
+  (use-package flycheck :ensure t :defer t)
+  (add-hook 'lsp-mode-hook #'flycheck-mode)
+
+  ;; Line numbers
+  (add-hook 'prog-mode-hook #'display-line-numbers-mode)
+#+end_src
+
+* Projects
+** Magit
+#+begin_src emacs-lisp
+  (use-package magit :ensure t :defer t)
+#+end_src
+
+** Projectile
+#+begin_src emacs-lisp
+  (use-package projectile :ensure t :defer t :init (projectile-mode))
+
+  ;; Recommended keymap prefix on Windows/Linux
+  (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
+#+end_src
+
+
+* Treemacs
+#+begin_src emacs-lisp
+  (use-package treemacs :ensure t :ensure hide-mode-line :ensure treemacs-all-the-icons :ensure treemacs-evil :defer t
+    :init
+    (require 'treemacs-all-the-icons)
+    (treemacs-load-theme "all-the-icons")
+    (add-hook 'treemacs-mode-hook #'hide-mode-line-mode)
+    (global-set-key (kbd "C-c t") #'treemacs-add-and-display-current-project-exclusively)
+    (require 'treemacs-evil)
+    (setq treemacs-width 25))
+#+end_src
+
+* Moodline
+#+begin_src emacs-lisp
+  (use-package mood-line :ensure t
+    ;; Use pretty Fira Code-compatible glyphs
+    :custom
+    (mood-line-glyph-alist mood-line-glyphs-fira-code))
+  (mood-line-mode)
+#+end_src
+
+* PDFS
+#+begin_src emacs-lisp
+  (use-package pdf-tools
+    :defer t
+    :commands (pdf-loader-install)
+    :mode "\\.pdf\\'"
+    :bind (:map pdf-view-mode-map
+                ("j" . pdf-view-next-line-or-next-page)
+                ("k" . pdf-view-previous-line-or-previous-page)
+                ("C-=" . pdf-view-enlarge)
+                ("C--" . pdf-view-shrink))
+    :init (pdf-loader-install)
+    :config (add-to-list 'revert-without-query ".pdf"))
+#+end_src
+
