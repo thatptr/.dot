@@ -1,9 +1,12 @@
-flameshot: info: Screenshot aborted.
-method return time=1703952966.155553 sender=:1.143 -> destination=:1.145 serial=36 reply_serial=2
-method return time=1703953899.335630 sender=:1.242 -> destination=:1.259 serial=47 reply_serial=2
-flameshot: info: Screenshot aborted.
-flameshot: info: Screenshot aborted.
+flameshot: info: Capture saved as /home/nymk/Pictures/2023-12-31_16-05.png
+al=155 reply_serial=2
 Failed to connect to the socket.
+Failed to connect to the socket.
+ocket.
+Failed to connect to the socket.
+method return time=1703967216.229307 sender=:1.29 -> destination=:1.69 serial=128 reply_serial=2
+Failed to connect to the socket.
+ocket.
 method return time=1703956574.169647 sender=:1.242 -> destination=:1.356 serial=162 reply_serial=2
 method return time=1703958574.340763 sender=:1.371 -> destination=:1.373 serial=36 reply_serial=2
  connect to the socket.
